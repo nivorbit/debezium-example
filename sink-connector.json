@@ -1,0 +1,23 @@
+{
+  "name": "target-user-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "topics": "customers",
+    "connection.url": "jdbc:postgresql://target_db:5432/user?user=postgres&password=postgres",
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true",
+    "auto.create": "true",
+    "auto.evolve": "true",
+    "insert.mode": "upsert",
+    "delete.enabled": "true",
+    "pk.fields": "customer_id",
+    "pk.mode": "record_key",
+    "schema.evolution": "none",
+    "db.timezone": "UTC",
+    "table.name.format": "users",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter"
+  }
+}

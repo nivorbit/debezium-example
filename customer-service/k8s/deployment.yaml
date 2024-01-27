@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debezium-customer-service-deployment
+  labels:
+    app: debezium-customer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debezium-customer-service
+  template:
+    metadata:
+      name: debezium-customer-service
+      labels:
+        app: debezium-customer-service
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: debezium-customer-service
+          image: nivorbit/debezium-customer-service
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: debezium-customer-service-configmap
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/liveness
+            initialDelaySeconds: 60
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/readiness
+            initialDelaySeconds: 60
+            periodSeconds: 5

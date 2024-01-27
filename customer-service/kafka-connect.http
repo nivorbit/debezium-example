@@ -1,0 +1,46 @@
+### Check the status of the Kafka Connect service
+GET http://localhost:8083
+Content-Type: application/json
+
+### Check the list of connectors registered with Kafka Connect
+GET http://localhost:8083/connectors
+Content-Type: application/json
+
+### Register the Debezium Postgre connector
+POST http://localhost:8083/connectors
+Content-Type: application/json
+
+{
+  "name": "source-customer-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "source_db",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "postgres",
+    "database.dbname": "customer",
+    "table.include.list": "public.customers",
+    "heartbeat.interval.ms": "1000",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "plugin.name": "pgoutput",
+    "topic.prefix": "debezium-source",
+    "snapshot.mode": "always",
+    "transforms": "route",
+    "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.route.regex": "([^.]+)\\.([^.]+)\\.([^.]+)",
+    "transforms.route.replacement": "$3",
+    "tombstones.on.delete": "false"
+  }
+}
+
+###
+GET http://localhost:8083/connectors
+Content-Type: application/json
+
+###
+GET http://localhost:8083/connectors/source-customer-connector
+Content-Type: application/json
+
+
