@@ -13,6 +13,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: customer
     command: ['postgres', '-c', 'wal_level=logical']
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/data.sql
   broker:
     image: confluentinc/cp-kafka:7.5.3
     hostname: broker

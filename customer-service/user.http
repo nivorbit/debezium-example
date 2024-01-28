@@ -1,0 +1,23 @@
+###
+GET http://localhost:8085/users
+Content-Type: application/json
+X-TenantId: target
+
+
+###
+POST http://localhost:8085/users
+X-TenantId: target
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "email": "john@smith.com",
+  "phoneNumber": "(555) 71960",
+  "address": "3a68e577391d8bf46019c9df85c83978",
+  "city": "İstanbul",
+  "state": "Pendik",
+  "postalCode": "43123",
+  "accountType": "Savings",
+  "balance": 895.00
+}

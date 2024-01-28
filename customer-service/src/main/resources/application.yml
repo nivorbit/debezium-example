@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: example
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/customer"
+    username: "postgres"
+    password: "postgres"
+
+server:
+  port: 8085
+
+management:
+  endpoint.health:
+    show-details: always
+    group:
+      readiness:
+        additional-path: server:/readiness
+    probes:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+
+multitenancy:
+  http:
+    header-name: X-TenantId

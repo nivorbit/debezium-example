@@ -11,7 +11,7 @@ POST http://localhost:8083/connectors
 Content-Type: application/json
 
 {
-  "name": "source-customer-connector",
+  "name": "source-user-connector",
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "tasks.max": "1",
@@ -20,9 +20,11 @@ Content-Type: application/json
     "database.user": "postgres",
     "database.password": "postgres",
     "database.dbname": "customer",
-    "table.include.list": "public.customers",
+    "table.include.list": "source.customers",
     "heartbeat.interval.ms": "1000",
+    "key.converter.schemas.enable": "false",
     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "plugin.name": "pgoutput",
     "topic.prefix": "debezium-source",
@@ -40,7 +42,12 @@ GET http://localhost:8083/connectors
 Content-Type: application/json
 
 ###
-GET http://localhost:8083/connectors/source-customer-connector
+GET http://localhost:8083/connectors/source-user-connector
 Content-Type: application/json
+
+###
+DELETE http://localhost:8083/connectors/source-user-connector
+Content-Type: application/json
+
 
 

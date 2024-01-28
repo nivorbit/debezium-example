@@ -71,7 +71,7 @@ Content-Type: application/json
     "auto.evolve": "true",
     "insert.mode": "upsert",
     "delete.enabled": "true",
-    "pk.fields": "customer_id",
+    "pk.fields": "id",
     "pk.mode": "record_key",
     "schema.evolution": "none",
     "db.timezone": "UTC",
